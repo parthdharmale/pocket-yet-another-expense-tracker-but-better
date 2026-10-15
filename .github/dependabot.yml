@@ -4,7 +4,27 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      npm-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # React's current ESLint plugin does not support ESLint 10 yet.
+      # Keep ESLint 9 patch updates; revisit with a compatible Next.js preset.
+      - dependency-name: eslint
+        versions:
+          - ">=10.0.0 <11.0.0"
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
