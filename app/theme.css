@@ -1,0 +1,20 @@
+/* One appearance setting and one palette for every Pocket page. */
+:root{--p-warn:light-dark(#8d5137,#efb495)}
+body{color:var(--p-ink);background:var(--p-bg);padding-bottom:76px}
+.theme-chooser{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:7px;min-height:44px;padding:0 12px;border:1px solid var(--p-line);border-radius:24px;color:var(--p-ink);background:var(--p-paper);box-shadow:0 5px 24px #0002;font:13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.theme-chooser select{color:inherit;background:transparent;border:0;min-height:44px;max-width:100px;font:inherit;cursor:pointer}
+.theme-chooser:focus-within{outline:2px solid var(--p-accent);outline-offset:3px}
+#pocket .toast{bottom:80px}
+#pocket .beta-prompt,#pocket .beta-endpoint pre,#pocket .traffic-metrics article{background:var(--p-paper);color:var(--p-ink);border-color:var(--p-line)}
+#pocket .beta-metrics span,#pocket .traffic-label,#pocket .traffic-metrics small,#pocket .traffic-column small,#pocket .traffic-legend{color:var(--p-muted)}
+#pocket .traffic-details summary{color:var(--p-accent)}
+#pocket .beta-section,#pocket .beta-member,#pocket .traffic-table-wrap td,#pocket .traffic-table-wrap th{border-color:var(--p-line)}
+#pocket .demo-banner,#pocket .demo-cta{background:var(--p-soft);color:var(--p-ink);border-color:var(--p-line)}
+#pocket .demo-banner .text-button{color:var(--p-accent)}
+.catalog-options{background:var(--background);color:var(--foreground);border-color:var(--border)}
+.catalog-options button:hover,.catalog-options button[aria-selected=true],.catalog-import-note{background:var(--muted);color:var(--foreground)}
+.catalog-options small{color:var(--muted-foreground)}
+.form-field textarea{color:var(--foreground);border-color:var(--border)}
+.ai-entry{background:var(--p-soft);color:var(--p-ink);border-color:var(--p-line)}
+.ai-entry-heading,.ai-entry-message{color:var(--p-accent)}
+.ai-entry textarea{background:var(--p-paper);color:var(--p-ink);border-color:var(--p-line)}

@@ -1,0 +1,35 @@
+# Credentials and local deployment state: only the empty template is public.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.pocket-*
+.vercel/
+.openai/
+.sites-runtime/
+.agents/
+.codex/
+.wrangler/
+# Dependencies, generated files, private exports and media.
+node_modules/
+.next/
+out/
+dist/
+coverage/
+outputs/
+work/
+backups/
+recordings/
+statements-private/
+*.tsbuildinfo
+next-env.d.ts
+*.log
+.DS_Store
+*.pdf
+*.heic
+*.HEIC
+*.m4a
+*.wav
+*.mp3
+*.mp4

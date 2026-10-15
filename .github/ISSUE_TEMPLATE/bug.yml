@@ -1,0 +1,22 @@
+name: Bug report
+description: Report a reproducible problem using fictional data.
+body:
+  - type: markdown
+    attributes:
+      value: Never attach bank statements, real transactions, emails, passwords, API keys, tokens or private screenshots. See SECURITY.md for vulnerabilities.
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce using fictional data
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behaviour
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, operating system and Node version

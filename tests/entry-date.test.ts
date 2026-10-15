@@ -1,0 +1,15 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {entryToday,assertPastOrToday,assertEntryDates,EntryDateError} from '../lib/pocket/entry-date.ts';
+import {prepareDraft,type ExtractedEntry} from '../lib/ai/entry.ts';
+import {changeDemoLedger} from '../lib/pocket/demo.ts';
+import {createDemoLedger} from '../lib/pocket/demo-data.ts';
+import type {Entry} from '../lib/pocket/types.ts';
+const now=new Date('2026-10-12T18:45:00Z');
+const data=createDemoLedger(new Date('2026-10-12T12:00:00Z'));
+const entry={...data.entries.find(e=>e.kind==='spend')!,date:'2026-10-13',refunds:[]} as Entry;
+test('today uses account timezone across midnight, rather than UTC/server day',()=>{assert.equal(entryToday('Asia/Kolkata',now),'2026-10-13');assert.equal(entryToday('America/Los_Angeles',now),'2026-10-12');assert.doesNotThrow(()=>assertPastOrToday('2026-10-13','Asia/Kolkata',now));assert.throws(()=>assertPastOrToday('2026-10-13','America/Los_Angeles',now),EntryDateError);assert.throws(()=>assertPastOrToday('2026-10-14','Asia/Kolkata',now),/after today/);});
+test('both spent and resisted entries and edits reject future dates; valid historical dates remain allowed',()=>{for(const kind of ['spend','resisted'] as const){assert.doesNotThrow(()=>assertEntryDates({...entry,kind},'Asia/Kolkata',now));assert.throws(()=>assertEntryDates({...entry,kind,date:'2026-10-14'},'Asia/Kolkata',now),/after today/);}assert.doesNotThrow(()=>assertPastOrToday('2024-02-29','Asia/Kolkata',now));assert.throws(()=>assertPastOrToday('2026-02-30','Asia/Kolkata',now),/valid/);});
+test('future refunds are also rejected; an existing invalid entry can be removed but not restored',()=>{assert.throws(()=>assertEntryDates({...entry,refunds:[{id:'refund',date:'2026-10-14',amount:100}]},'Asia/Kolkata',now),/Refund date/);const old={...entry,date:'2026-10-14',deleted:true};assert.throws(()=>assertEntryDates(old,'Asia/Kolkata',now),/after today/);assert.doesNotThrow(()=>assertEntryDates(old,'Asia/Kolkata',now,true));assert.throws(()=>assertEntryDates({...old,deleted:false},'Asia/Kolkata',now,true),/after today/);});
+test('AI and shortcut draft validation asks for an earlier date without silently changing it to today',()=>{const draft:ExtractedEntry={title:'Lunch',amount:450,date:'2026-10-14',platformId:data.platforms[0].id,paymentId:data.cards[0].id,kind:'spend',share:null,note:'',uncertain:false,questions:[]};for(const kind of ['spend','resisted'] as const){const checked=prepareDraft({...draft,kind},data,now);assert.equal(checked.complete,false);assert.equal(checked.draft.date,null);assert.ok(checked.questions.some(q=>q.includes('after today')));assert.equal(prepareDraft({...draft,kind,date:'2026-10-13'},data,now).complete,true);}});
+test('demo mutations cannot bypass future-date checks',()=>{assert.throws(()=>changeDemoLedger(data,'entries',{...entry,date:'9999-01-01'}),/after today/);assert.equal(data.entries.some(e=>e.date==='9999-01-01'),false);});

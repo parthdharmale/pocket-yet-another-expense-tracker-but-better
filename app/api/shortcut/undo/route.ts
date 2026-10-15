@@ -1,0 +1,6 @@
+import {z} from 'zod';
+import {shortcutUser} from '@/lib/shortcut/access';
+import {load,persist} from '@/lib/pocket/store';
+export const runtime='nodejs';
+const json=(message:string,status=200)=>Response.json({status:status===200?'undone':'error',message},{status,headers:{'Cache-Control':'no-store'}});
+export async function POST(req:Request){try{const user=await shortcutUser(req);if(!user)return json('Shortcut access is invalid or revoked.',401);const body=z.object({entryId:z.string().regex(/^shortcut-[a-f0-9]{64}$/)}).strict().parse(await req.json());for(let i=0;i<5;i++){const data=await load(user.userId),entry=data.entries.find(e=>e.id===body.entryId&&e.source==='shortcut');if(!entry)return json('This entry was not created by the shortcut.',404);if(entry.deleted)return json('Entry already undone.');if(Date.now()-Date.parse(entry.createdAt)>15*60*1000)return json('The 15-minute Undo window has passed. You can remove the entry in Pocket.',409);if(await persist(user.userId,data.version,[{collection:'entries',value:{...entry,deleted:true}}]))return json('Entry undone. You can restore it in Pocket.');}return json('Your ledger changed. Retry Undo.',409);}catch{return json('Could not undo the entry. Open Pocket to review.',400);}}

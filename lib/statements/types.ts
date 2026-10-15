@@ -1,0 +1,10 @@
+export const categories=['Food delivery','Dining','Groceries','Shopping','Transport','Fuel','Bills & subscriptions','Health','Home & services','Travel','Donations','Transfers / personal','Uncategorised'] as const;
+export type Category=typeof categories[number];
+export const kinds=['purchase','refund','repayment','cashback','reward-reversal','fee','interest','other-credit'] as const;
+export type Kind=typeof kinds[number];
+export type Transaction={oneOff?:boolean;id:string;date:string;merchant:string;merchantKey:string;description:string;amount:number;direction:'debit'|'credit';kind:Kind;category:Category;confidence:'known'|'suggested'|'review'|'confirmed';statementId:string;statementIds:string[];cardKey:string};
+export type Statement={id:string;bank:'HDFC'|'HSBC';cardKey:string;name:string;uploadedAt:string;start:string;end:string;opening:number|null;closing:number|null;debits:number;credits:number;difference:number|null;rows:number;coverageInferred?:boolean;format?:'hdfc-annual'|'hdfc-monthly'|'hsbc-monthly';reconciliation?:'totals'|'balance';expectedDebits?:number|null;expectedCredits?:number|null;summaryThrough?:string|null;postSummaryRows?:number;warnings:string[]};
+export type Merchant={key:string;name:string;category:Category;confidence:'suggested'|'confirmed';sources:{title:string;url:string}[];note:string};
+export type SpendLabelRule={id:string;label:string;minimum:number;maximum:number;merchant:string};
+export type StatementData={spendRules?:SpendLabelRule[];version:number;statements:Statement[];transactions:Transaction[];merchants:Merchant[]};
+export type ParsedStatement={statement:Statement;transactions:Transaction[]};

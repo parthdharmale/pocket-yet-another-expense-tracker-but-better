@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {newShortcutToken,tokenDigest,matchesToken,shortcutEntryId} from '../lib/shortcut/token.ts';
+import {savedResult} from '../lib/shortcut/results.ts';
+import {seedPlatforms,initialSettings} from '../lib/pocket/seed.ts';
+import {seedCards} from './fixtures/reward-cards.ts';
+import {chooseRule} from '../lib/pocket/engine.ts';
+import type {PocketData,Entry} from '../lib/pocket/types.ts';
+test('shortcut tokens are random, hashed and compare only exact tokens',()=>{const token=newShortcutToken(),digest=tokenDigest(token);assert.equal(token.length,47);assert.notEqual(token,newShortcutToken());assert.notEqual(digest,token);assert.ok(matchesToken(token,digest));assert.equal(matchesToken(newShortcutToken(),digest),false);assert.equal(matchesToken('malformed',digest),false);assert.equal(matchesToken(token,'invalid'),false)});
+test('request IDs map to stable IDs and different operations cannot collide',()=>{assert.equal(shortcutEntryId('test-request-1'),shortcutEntryId('test-request-1'));assert.notEqual(shortcutEntryId('test-request-1'),shortcutEntryId('test-request-2'));assert.match(shortcutEntryId('test-request-1'),/^shortcut-[a-f0-9]{64}$/)});
+test('saved responses report zero cashback below threshold, and mark replayed undone entries',()=>{const data:PocketData={version:0,cards:structuredClone(seedCards),platforms:seedPlatforms,settings:initialSettings,entries:[],wishes:[]};const entry:Entry={source:'shortcut',id:shortcutEntryId('test'),date:'2026-10-09',title:'Tea',amount:14700,share:14700,platformId:'swiggy-food',paymentId:'swiggy-hdfc',kind:'spend',category:'Food delivery',note:'',refunds:[],settled:false,credited:null,reward:chooseRule(data.cards[0],data.platforms[0]),billingDay:null,createdAt:new Date().toISOString(),deleted:false};data.entries=[entry];const result=savedResult(entry,data,'test');assert.equal(result.status,'saved');assert.equal('estimatedCashback' in result&&result.estimatedCashback,0);assert.equal('undoAvailable' in result&&result.undoAvailable,true);assert.equal(savedResult({...entry,deleted:true},data,'test',true).status,'undone');entry.amount=45000;entry.share=45000;const eligible=savedResult(entry,data,'test');assert.equal('estimatedCashback' in eligible&&eligible.estimatedCashback,45);});

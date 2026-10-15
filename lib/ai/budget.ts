@@ -1,0 +1,2 @@
+export type Usage={date:string;total:number;users:Record<string,number>};
+export function reserveUsage(current:Usage,date:string,owner:string,userLimit:number,globalLimit:number):Usage|null{const usage=current.date===date?structuredClone(current):{date,total:0,users:{}};if(usage.total>=globalLimit||(usage.users[owner]??0)>=userLimit)return null;usage.total++;usage.users[owner]=(usage.users[owner]??0)+1;return usage;}

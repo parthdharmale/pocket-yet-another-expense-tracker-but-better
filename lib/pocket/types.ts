@@ -1,0 +1,11 @@
+export type Period='statement'|'month'|'quarter'|'statement-quarter';
+export type Rule={id:string;label:string;platformIds:string[];merchantNames?:string[];categories:string[];excludedCategories?:string[];channel?:'online'|'offline';rate:number;rounding?:'nearest-rupee-half-down';additionalCaps?:{bucket:string;cap:number;period:Period}[];minSpendExclusive?:number;minSpendInclusive?:number;maxPerTransaction?:number;validFrom?:string;validUntil?:string;cap:number|null;bucket:string;period:Period;kind:'cashback'|'points'|'credit';rewardCurrency?:string;unit:number;points:number;pointValue:number|null;provenance:'issuer'|'personal';notes:string;active:boolean};
+export type Card={id:string;catalogId?:string;catalogCheckedOn?:string;name:string;issuer:string;owner:'self'|'friend';limit:number|null;billingDay:number|null;color:string;rules:Rule[];benefits:string[];sources:{title:string;url:string}[];verifiedAt:string;status:'verified'|'needs-confirmation';notes:string;active:boolean;openingUsage:{bucket:string;cycle:string;amount:number}[]};
+export type Platform={id:string;name:string;category:string;channel?:'online'|'offline'|'unknown';active:boolean};
+export type Refund={id:string;amount:number;date:string};
+export type Entry={source?:'shortcut';id:string;date:string;title:string;amount:number;share:number;platformId:string;paymentId:string;kind:'spend'|'resisted';category:string;note:string;refunds:Refund[];settled:boolean;credited:number|null;reward:Rule|null;billingDay:number|null;createdAt:string;deleted:boolean};
+export type Wish={id:string;title:string;amount:number;platformId:string;note:string;createdAt:string;hours:number;status:'waiting'|'bought'|'resisted';entryId:string|null};
+export type Settings={id:string;monthlyBudget:number;weeklyBudget:number;rollover:boolean;budgetStart:string;paymentModes:string[];timezone?:string;onboarded?:boolean};
+export type PocketData={version:number;cards:Card[];platforms:Platform[];entries:Entry[];wishes:Wish[];settings:Settings;accountDeleted?:boolean};
+export type Entity=Card|Platform|Entry|Wish|Settings;
+export type Collection='cards'|'platforms'|'entries'|'wishes'|'settings';

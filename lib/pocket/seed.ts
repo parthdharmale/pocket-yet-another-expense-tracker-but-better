@@ -1,0 +1,3 @@
+import type {Platform,Settings} from './types';
+export const seedPlatforms:Platform[]=[['swiggy-food','Swiggy Food','Food delivery'],['swiggy-instamart','Swiggy Instamart','Groceries'],['zomato','Zomato','Food delivery'],['amazon-now','Amazon Now','Groceries'],['zepto','Zepto','Groceries'],['amazon-shopping','Amazon Shopping','Shopping'],['flipkart-shopping','Flipkart Shopping','Shopping'],['flipkart-minutes','Flipkart Minutes','Groceries'],['swiggy-dineout','Swiggy Dineout','Dining']].map(([id,name,category])=>({id,name,category,active:true}));
+export const initialSettings:Settings={id:'preferences',monthlyBudget:0,weeklyBudget:0,rollover:false,budgetStart:'2026-10',paymentModes:['UPI','Cash']};

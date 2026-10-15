@@ -1,0 +1,7 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build -- --webpack",
+  "regions": [
+    "iad1"
+  ]
+}

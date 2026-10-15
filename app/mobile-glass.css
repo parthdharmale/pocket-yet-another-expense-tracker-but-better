@@ -1,0 +1,52 @@
+/* Mobile glass treatment is isolated here; desktop styles remain unchanged. */
+.mobile-nav-space{display:none}
+@media(max-width:700px){
+ .mobile-nav-space{display:block;height:82px;position:relative;z-index:40}
+ .mobile-glass-nav{position:fixed;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:360px;max-width:calc(100vw - 28px);border-radius:30px;border:1px solid light-dark(#ffffffd9,#526457);background:light-dark(#f9fcf6f2,#25322bf2);box-shadow:0 8px 30px #243d2920,inset 0 1px 0 light-dark(#fff,#68796a),inset 0 -1px 0 light-dark(#ffffffb0,#526457);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);color:light-dark(#244332,#e4ebe5);transition:border-radius .25s,box-shadow .25s;overflow:hidden;font-family:Arial,sans-serif}
+ .mobile-glass-nav.is-open{width:360px;border-radius:29px;box-shadow:0 18px 60px #243d2933,inset 0 1px 0 light-dark(#fff,#68796a)}
+ .mobile-glass-top{display:flex;align-items:center;min-height:56px;padding:5px 9px 5px 16px;gap:6px}
+ .mobile-glass-nav a,.mobile-glass-nav button{color:inherit!important;text-decoration:none;font:inherit;cursor:pointer;border:0!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+ .mobile-glass-nav .mobile-current{display:flex!important;align-items:center;gap:9px;flex:1;min-width:0;min-height:44px;padding:8px 0!important;font-size:13px!important;justify-content:flex-start!important;border-radius:16px}
+ .mobile-current>span{display:flex;align-items:center;gap:8px;animation:glass-label .28s ease-out;white-space:nowrap;font-weight:600}
+ .mobile-glass-nav .mobile-menu-toggle{display:grid;place-items:center;border-radius:50%;width:44px;height:44px;padding:0!important;background:#5275530e!important;flex-shrink:0}
+ .mobile-menu-toggle svg{transition:transform .35s}.is-open .mobile-menu-toggle svg{transform:rotate(180deg)}
+ .mobile-glass-menu[hidden]{display:none}
+ .is-open .mobile-glass-menu{animation:glass-menu .18s ease-out}
+ .mobile-glass-menu>div{overflow:hidden;min-height:0;padding:0 10px;max-height:70dvh;overflow-y:auto}
+ .mobile-glass-menu p{font-size:9px;letter-spacing:1.7px;color:light-dark(#596c5c,#b9c9bc);margin:12px 13px 8px!important}
+ .mobile-glass-menu a,.mobile-glass-menu button{display:flex!important;align-items:center;gap:11px;width:100%;padding:13px!important;font-size:13px!important;border-radius:17px!important;text-align:left;justify-content:flex-start!important;margin:2px 0}
+ .mobile-glass-menu a:last-child,.mobile-glass-menu button:last-child{margin-bottom:12px}
+ .mobile-glass-menu [aria-current=page]{background:light-dark(#41644114,#b6d5a624)!important;font-weight:600}
+ .mobile-glass-nav :focus-visible{outline:2px solid #527b52!important;outline-offset:-2px}
+ #pocket>.shell>.sidebar{display:none!important}
+ #pocket .shell{display:block}
+ #pocket{background:radial-gradient(ellipse at 95% 0%,light-dark(#e1ebdb,#25352b),transparent 55%),var(--p-bg)}
+ #pocket .demo-banner{background:var(--p-soft);color:var(--p-ink);border-color:var(--p-line)}
+ #pocket .demo-banner .text-button{color:var(--p-accent)}
+ #pocket .main{padding-top:8px;background:transparent}
+ #pocket .panel,#pocket .card-tile,#pocket .wishlist-card,#pocket .beta-section{border-radius:23px;background:var(--p-paper);box-shadow:0 4px 20px #344a3106}
+ #pocket .beta-page{padding-top:8px}
+ #pocket .beta-prompt,#pocket .beta-endpoint pre,#pocket .traffic-metrics article{background:var(--p-paper);color:var(--p-ink);border-color:var(--p-line)}
+ #pocket .beta-metrics span,#pocket .traffic-label,#pocket .traffic-metrics small,#pocket .traffic-column small,#pocket .traffic-legend{color:var(--p-muted)}
+ #pocket .traffic-details summary{color:var(--p-accent)}
+ #pocket .beta-page>a:first-child{display:none}
+ #pocket .button{border-radius:16px}
+ #pocket .segment{border-radius:18px;padding:4px;background:var(--p-soft)}
+ #pocket .segment button{border-radius:14px}
+ #pocket .page-head h1{font-size:29px;letter-spacing:-1.2px}
+ #pocket .page-head{padding-right:0}
+ #pocket .calendar{border-radius:22px;overflow:hidden}
+ #pocket .stat{border-radius:21px}
+ .statement-workspace .st-nav{padding-top:0}
+ .statement-workspace .st-nav>a,.statement-workspace .st-nav>span{display:none}
+ .statement-workspace .st-nav>button{margin-left:auto}
+ .statement-workspace{background:radial-gradient(ellipse at top right,light-dark(#e2ecda,#25352b),transparent 55%),var(--p-bg)}
+ .statement-workspace .st-card{border-radius:25px;background:var(--p-paper);box-shadow:0 5px 25px #32492c05}
+ .statement-workspace .st-filter{border-radius:22px;background:var(--p-soft);border:1px solid var(--p-line);padding:12px}
+ .statement-workspace .st-segment{border-radius:16px}.statement-workspace .st-segment button{border-radius:13px}
+ .statement-workspace .st-heading{padding-top:22px}
+ @keyframes glass-menu{from{opacity:0}to{opacity:1}}
+ @keyframes glass-label{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+}
+@media(max-width:700px) and (prefers-reduced-transparency:reduce){.mobile-glass-nav{background:light-dark(#f9fcf6,#25322b);backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-reduced-motion:reduce){.mobile-glass-nav,.mobile-glass-menu,.mobile-menu-toggle svg,.mobile-current>span{transition:none!important;animation:none!important}}
